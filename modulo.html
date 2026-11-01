@@ -4,59 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Duddy Krisna - 262605003 - Kalkulator Modular</title>
+    <title>Duddy Krisna G. - Kalkulator Modular dan Kongruensi</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            padding: 30px 15px;
         }
 
         .container {
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
-            width: 350px;
+            max-width: 450px;
+            margin: auto;
             box-shadow: 0 4px 12px #0002;
-            text-align: center;
         }
 
         h2 {
             color: #2563eb;
+            text-align: center;
+        }
+
+        h3 {
+            color: #333;
         }
 
         input {
-            width: 90%;
-            padding: 10px;
-            margin: 8px 0;
+            width: 95%;
+            padding: 11px;
+            margin: 7px 0 15px;
             border: 1px solid #ccc;
             border-radius: 6px;
+            box-sizing: border-box;
         }
 
         button {
+            width: 100%;
+            padding: 12px;
             background: #2563eb;
             color: white;
             border: none;
-            padding: 12px 20px;
             border-radius: 6px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
+            font-size: 15px;
         }
 
         button:hover {
             background: #1d4ed8;
         }
 
-        #hasil {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
+        .hasil {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #eff6ff;
+            line-height: 1.7;
+        }
+
+        .success {
             color: #15803d;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        hr {
+            margin: 25px 0;
+            border: 0;
+            border-top: 1px solid #ddd;
         }
     </style>
 </head>
@@ -64,44 +84,146 @@
 <body>
 
 <div class="container">
+
     <h2>Kalkulator Modular</h2>
-    <p>Hitung sisa hasil pembagian (a mod n)</p>
 
-    <input type="number" id="angka" placeholder="Masukkan bilangan a">
+    <!-- FITUR 1: HITUNG MODULAR -->
+    <h3>1. Perhitungan Modular</h3>
 
-    <input type="number" id="modulus" placeholder="Masukkan modulus n">
+    <label>Bilangan a</label>
+    <input type="number" id="angka"
+           placeholder="Masukkan bilangan a">
 
-    <button onclick="hitungModular()">Hitung Modular</button>
+    <label>Modulus n</label>
+    <input type="number" id="modulus"
+           placeholder="Masukkan modulus n">
 
-    <div id="hasil"></div>
+    <button onclick="hitungModular()">
+        Hitung Modular
+    </button>
+
+    <div id="hasilModular" class="hasil"></div>
+
+    <hr>
+
+    <!-- FITUR 2: CEK KONGRUENSI -->
+    <h3>2. Pengecek Kongruensi</h3>
+
+    <label>Bilangan a</label>
+    <input type="number" id="bilA"
+           placeholder="Masukkan bilangan a">
+
+    <label>Bilangan b</label>
+    <input type="number" id="bilB"
+           placeholder="Masukkan bilangan b">
+
+    <label>Modulus n</label>
+    <input type="number" id="modN"
+           placeholder="Masukkan modulus n">
+
+    <button onclick="cekKongruensi()">
+        Cek Kongruensi
+    </button>
+
+    <div id="hasilKongruensi" class="hasil"></div>
+
 </div>
 
 <script>
-    function hitungModular() {
-        let a = Number(document.getElementById("angka").value);
-        let n = Number(document.getElementById("modulus").value);
 
-        if (
-            document.getElementById("angka").value === "" ||
-            document.getElementById("modulus").value === ""
-        ) {
-            document.getElementById("hasil").innerHTML =
-                "Masukkan kedua bilangan terlebih dahulu!";
-            return;
-        }
+// FUNGSI PERHITUNGAN MODULAR
+function hitungModular() {
 
-        if (!Number.isSafeInteger(a) ||
-            !Number.isSafeInteger(n) || n <= 0) {
-            document.getElementById("hasil").innerHTML =
-                "Masukkan bilangan bulat yang valid dan modulus lebih dari 0!";
-            return;
-        }
+    let a = document.getElementById("angka").value;
+    let n = document.getElementById("modulus").value;
 
-        let hasil = ((a % n) + n) % n;
+    let output = document.getElementById("hasilModular");
 
-        document.getElementById("hasil").innerHTML =
-            a + " mod " + n + " = " + hasil;
+    if (a === "" || n === "") {
+        output.innerHTML = "Lengkapi semua input!";
+        return;
     }
+
+    a = Number(a);
+    n = Number(n);
+
+    if (!Number.isSafeInteger(a) ||
+        !Number.isSafeInteger(n) || n <= 0) {
+        output.innerHTML = "Masukkan bilangan bulat valid dan modulus positif!";
+        return;
+    }
+
+    let hasil = ((a % n) + n) % n;
+
+    output.innerHTML = `
+        <b>Hasil Perhitungan:</b><br>
+        ${a} mod ${n} = ${hasil}
+    `;
+}
+
+
+// FUNGSI PENGECEK KONGRUENSI
+function cekKongruensi() {
+
+    let a = document.getElementById("bilA").value;
+    let b = document.getElementById("bilB").value;
+    let n = document.getElementById("modN").value;
+
+    let output = document.getElementById("hasilKongruensi");
+
+    if (a === "" || b === "" || n === "") {
+        output.innerHTML = "Lengkapi semua input!";
+        return;
+    }
+
+    a = Number(a);
+    b = Number(b);
+    n = Number(n);
+
+    if (!Number.isSafeInteger(a) ||
+        !Number.isSafeInteger(b) ||
+        !Number.isSafeInteger(n) || n <= 0) {
+        output.innerHTML = "Masukkan bilangan bulat valid dan modulus positif!";
+        return;
+    }
+
+    let sisaA = ((a % n) + n) % n;
+    let sisaB = ((b % n) + n) % n;
+
+    if (sisaA === sisaB) {
+
+        output.innerHTML = `
+            <span class="success">
+                KONGRUEN
+            </span><br><br>
+
+            ${a} mod ${n} = ${sisaA}<br>
+            ${b} mod ${n} = ${sisaB}<br><br>
+
+            Karena kedua sisa pembagian sama,
+            maka:<br>
+
+            <b>${a} ≡ ${b} (mod ${n})</b>
+        `;
+
+    } else {
+
+        output.innerHTML = `
+            <span class="error">
+                TIDAK KONGRUEN
+            </span><br><br>
+
+            ${a} mod ${n} = ${sisaA}<br>
+            ${b} mod ${n} = ${sisaB}<br><br>
+
+            Karena kedua sisa pembagian berbeda,
+            maka:<br>
+
+            <b>${a} ≢ ${b} (mod ${n})</b>
+        `;
+    }
+}
+
 </script>
 
 </body>
