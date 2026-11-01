@@ -1,1 +1,187 @@
-kalkulator modulo
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duddy Krisna - 262605003 - Kalkulator Aritmetika Modular</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2563eb;
+        }
+
+        p {
+            text-align: center;
+            color: #555;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .hasil {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 8px;
+            color: #1e40af;
+            overflow-wrap: anywhere;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Aritmetika Modular</h1>
+    <p>Kalkulator Matematika Informatika</p>
+
+    <label>Bilangan Pertama (A)</label>
+    <input type="number" id="angkaA" value="7">
+
+    <label>Bilangan Kedua (B)</label>
+    <input type="number" id="angkaB" value="8">
+
+    <label>Modulus (N)</label>
+    <input type="number" id="modulus" value="5" min="1">
+
+    <label>Pilih Operasi</label>
+    <select id="operasi">
+        <option value="+">Penjumlahan (+)</option>
+        <option value="-">Pengurangan (-)</option>
+        <option value="*">Perkalian (*)</option>
+        <option value="/">Pembagian (/)</option>
+    </select>
+
+    <button onclick="hitungModular()">
+        Hitung Modular
+    </button>
+
+    <div class="hasil" id="hasil">
+        Hasil perhitungan akan muncul di sini.
+    </div>
+</div>
+
+<script>
+    function mod(a, n) {
+        return ((a % n) + n) % n;
+    }
+
+    function gcd(a, b) {
+        while (b !== 0) {
+            let temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    function inversModular(b, n) {
+        for (let i = 1; i < n; i++) {
+            if (mod(b * i, n) === 1) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    function hitungModular() {
+        let a = Number(document.getElementById("angkaA").value);
+        let b = Number(document.getElementById("angkaB").value);
+        let n = Number(document.getElementById("modulus").value);
+        let op = document.getElementById("operasi").value;
+
+        let hasil;
+        let proses;
+
+        if (
+            !Number.isSafeInteger(a) ||
+            !Number.isSafeInteger(b) ||
+            !Number.isSafeInteger(n) ||
+            n < 1
+        ) {
+            document.getElementById("hasil").innerHTML =
+                "Masukkan bilangan bulat yang valid dan modulus lebih dari 0.";
+            return;
+        }
+
+        switch (op) {
+            case "+":
+                hasil = mod(a + b, n);
+                proses = `(${a} + ${b}) mod ${n}`;
+                break;
+
+            case "-":
+                hasil = mod(a - b, n);
+                proses = `(${a} - ${b}) mod ${n}`;
+                break;
+
+            case "*":
+                hasil = mod(a * b, n);
+                proses = `(${a} × ${b}) mod ${n}`;
+                break;
+
+            case "/":
+                if (gcd(mod(b, n), n) !== 1) {
+                    document.getElementById("hasil").innerHTML =
+                        "Pembagian tidak memiliki invers modular karena FPB(B, N) bukan 1.";
+                    return;
+                }
+
+                let invers = inversModular(mod(b, n), n);
+                hasil = mod(a * invers, n);
+                proses = `(${a} × invers(${b}) mod ${n}) mod ${n}`;
+                break;
+        }
+
+        document.getElementById("hasil").innerHTML =
+            `<strong>Proses:</strong> ${proses}<br><br>
+             <strong>Hasil:</strong> ${hasil}`;
+    }
+</script>
+
+</body>
+</html>
+
