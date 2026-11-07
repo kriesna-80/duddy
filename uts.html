@@ -3,94 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biodata Online Pribadi</title>
+<title>Biodata Online</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
-
 body{
+    font-family: Arial, sans-serif;
     background:#f4f4f4;
-    line-height:1.6;
+    margin:0;
 }
 
-/* NAVBAR */
 nav{
     background:#007BFF;
     padding:15px;
-    position:sticky;
-    top:0;
-    z-index:100;
-}
-
-nav ul{
-    list-style:none;
-    display:flex;
-    justify-content:center;
-    gap:20px;
 }
 
 nav a{
     color:white;
     text-decoration:none;
+    margin-right:20px;
     font-weight:bold;
-}
-
-nav a:hover{
-    text-decoration:underline;
-}
-
-/* SECTION */
-section{
-    padding:50px 20px;
 }
 
 .container{
-    max-width:1000px;
+    width:90%;
+    max-width:900px;
     margin:auto;
 }
 
-/* BIODATA */
-.profile{
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-.profile h2{
-    color:#007BFF;
-    margin-bottom:15px;
-}
-
-.biodata-item{
-    display:flex;
-    margin-bottom:8px;
-}
-
-.label{
-    width:140px;
-    font-weight:bold;
-}
-
-/* CARD */
 .card{
     background:white;
+    margin:20px 0;
     padding:20px;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-    margin-bottom:25px;
+    border-radius:8px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.2);
 }
 
-.card h3{
-    color:#007BFF;
-    margin-bottom:15px;
+input{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    margin-bottom:10px;
 }
 
-label.form-label{
-    display:block;
-    margin
+button{
+    background:#007BFF;
+    color:white;
+    border:none;
+    padding:10px;
+    width:100%;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+.hasil{
+    margin-top:10px;
+    background:#f0f0f0;
+    padding:10px;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="#biodata">Biodata</a>
+    <a href="#belajar">Bukti Belajar</a>
+</nav>
+
+<div class="container">
+
+<section id="biodata" class="card">
+    <h2>Biodata Pribadi</h2>
+
+    <p><b>Nama</b> : Duddy Krisna Gunawan</p>
+    <p><b>NIM</b> : 262605003</p>
+    <p><b>Program Studi</b> : Sistem Informasi</p>
+    <p><b>Universitas</b> : Masoem University</p>
+    <p><b>Email</b> : kriesna80@gmail.com</p>
+
+</section>
+
+<section id="belajar">
+
+<div class="card">
+
+<h2>Modulo Calculator</h2>
+
+<label>Bilangan a</label>
+<input type="number" id="a">
+
+<label>Modulus m</label>
+<input type="number" id="m">
+
+<button onclick="hitungMod()">
+Hitung Modulus
+</button>
+
+<div id="hasilMod" class="hasil"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Congruence Checker</h2>
+
+<label>Bilangan a</label>
+<input type="number" id="a2">
+
+<label>Bilangan b</label>
+<input type="number" id="b">
+
+<label>Modulus m</label>
+<input type="number" id="m2">
+
+<button onclick="cekKongruensi()">
+Periksa Kongruensi
+</button>
+
+<div id="hasilKongruensi" class="hasil"></div>
+
+</div>
+
+</section>
+
+</div>
+
+<script>
+
+function hitungMod(){
+
+let a = parseInt(document.getElementById("a").value);
+let m = parseInt(document.getElementById("m").value);
+
+if(isNaN(a) || isNaN(m)){
+    document.getElementById("hasilMod").innerHTML =
+    "Masukkan nilai a dan m";
+    return;
+}
+
+if(m <= 0){
+    document.getElementById("hasilMod").innerHTML =
+    "Modulus harus positif";
+    return;
+}
+
+let hasil = ((a % m) + m) % m;
+
+document.getElementById("hasilMod").innerHTML =
+    "<b>" + a + " mod " + m + " = " + hasil + "</b>";
+}
+
+function cekKongruensi(){
+
+let a = parseInt(document.getElementById("a2").value);
+let b = parseInt(document.getElementById("b").value);
+let m = parseInt(document.getElementById("m2").value);
+
+if(isNaN(a) || isNaN(b) || isNaN(m)){
+    document.getElementById("hasilKongruensi").innerHTML =
+    "Masukkan a, b, dan m";
+    return;
+}
+
+if(m <= 0){
+    document.getElementById("hasilKongruensi").innerHTML =
+    "Modulus harus positif";
+    return;
+}
+
+if((a - b) % m === 0){
+
+document.getElementById("hasilKongruensi").innerHTML =
+"<b>" + a + " ≡ " + b + " (mod " + m + ")</b><br>Status: KONGRUEN";
+
+}else{
+
+document.getElementById("hasilKongruensi").innerHTML =
+"<b>" + a + " ≢ " + b + " (mod " + m + ")</b><br>Status: TIDAK KONGRUEN";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
