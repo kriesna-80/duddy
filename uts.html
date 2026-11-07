@@ -267,6 +267,10 @@
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
     }
 
+    .learning-card.number-card {
+      grid-column: 1 / -1;
+    }
+
     .learning-card-header {
       display: flex;
       align-items: start;
@@ -316,7 +320,8 @@
       font-weight: 700;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       min-height: 44px;
       padding: 10px 12px;
@@ -327,7 +332,8 @@
       font: inherit;
     }
 
-    input:focus {
+    input:focus,
+    select:focus {
       border-color: var(--green);
       outline: 3px solid rgba(36, 92, 67, 0.15);
     }
@@ -371,6 +377,65 @@
     .result.has-value {
       color: var(--ink);
       font-weight: 650;
+    }
+
+    .number-converter-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.8fr) 1.2fr;
+      align-items: start;
+      gap: 24px;
+    }
+
+    .number-form-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .number-form .field {
+      margin-bottom: 0;
+    }
+
+    .number-form button {
+      margin-top: 14px;
+    }
+
+    .conversion-results {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin: 0;
+      border-block: 1px solid var(--line);
+    }
+
+    .conversion-item {
+      min-width: 0;
+      padding: 14px 12px;
+      border-right: 1px solid var(--line);
+    }
+
+    .conversion-item:last-child {
+      border-right: 0;
+    }
+
+    .conversion-item dt {
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .conversion-item dd {
+      margin: 0;
+      color: var(--green-dark);
+      font-family: Consolas, monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .number-status {
+      min-height: 48px;
+      margin-top: 12px;
     }
 
     .site-footer {
@@ -439,6 +504,27 @@
       .learning-mark {
         width: 52px;
         font-size: 1.6rem;
+      }
+
+      .number-converter-layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .number-form-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .conversion-results {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .conversion-item:nth-child(2) {
+        border-right: 0;
+      }
+
+      .conversion-item:nth-child(-n+2) {
+        border-bottom: 1px solid var(--line);
       }
     }
 
@@ -534,24 +620,12 @@
             <div class="calculator-fields">
               <div class="field">
                 <label for="a">Bilangan a</label>
-                <input
-                  type="text"
-                  id="a"
-                  inputmode="numeric"
-                  pattern="-?[0-9]+"
-                  required
-                >
+                <input type="text" id="a" pattern="-?[0-9]+" required>
               </div>
 
               <div class="field">
                 <label for="m">Modulus m</label>
-                <input
-                  type="text"
-                  id="m"
-                  inputmode="numeric"
-                  pattern="-?[0-9]+"
-                  required
-                >
+                <input type="text" id="m" pattern="-?[0-9]+" required>
               </div>
             </div>
 
@@ -576,35 +650,17 @@
             <div class="calculator-fields three-fields">
               <div class="field">
                 <label for="a2">Bilangan a</label>
-                <input
-                  type="text"
-                  id="a2"
-                  inputmode="numeric"
-                  pattern="-?[0-9]+"
-                  required
-                >
+                <input type="text" id="a2" pattern="-?[0-9]+" required>
               </div>
 
               <div class="field">
                 <label for="b">Bilangan b</label>
-                <input
-                  type="text"
-                  id="b"
-                  inputmode="numeric"
-                  pattern="-?[0-9]+"
-                  required
-                >
+                <input type="text" id="b" pattern="-?[0-9]+" required>
               </div>
 
               <div class="field">
                 <label for="m2">Modulus m</label>
-                <input
-                  type="text"
-                  id="m2"
-                  inputmode="numeric"
-                  pattern="-?[0-9]+"
-                  required
-                >
+                <input type="text" id="m2" pattern="-?[0-9]+" required>
               </div>
             </div>
 
@@ -614,6 +670,70 @@
           <p id="hasilKongruensi" class="result" role="status" aria-live="polite">
             Hasil dan proses pengecekan akan muncul di sini.
           </p>
+        </article>
+
+        <article class="learning-card number-card">
+          <header class="learning-card-header">
+            <div>
+              <p class="learning-index">03 · KONVERSI BASIS</p>
+              <h3>Kalkulator Sistem Bilangan</h3>
+            </div>
+            <span class="learning-formula" aria-hidden="true">2 · 8 · 10 · 16</span>
+          </header>
+
+          <div class="number-converter-layout">
+            <form id="numberForm" class="number-form">
+              <div class="number-form-fields">
+                <div class="field">
+                  <label for="numberInput">Bilangan</label>
+                  <input
+                    type="text"
+                    id="numberInput"
+                    autocomplete="off"
+                    spellcheck="false"
+                    required
+                  >
+                </div>
+
+                <div class="field">
+                  <label for="sourceBase">Basis bilangan asal</label>
+                  <select id="sourceBase">
+                    <option value="2">Biner (Basis 2)</option>
+                    <option value="10" selected>Desimal (Basis 10)</option>
+                    <option value="8">Oktal (Basis 8)</option>
+                    <option value="16">Heksadesimal (Basis 16)</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit">Konversi</button>
+            </form>
+
+            <div>
+              <dl class="conversion-results">
+                <div class="conversion-item">
+                  <dt>Biner</dt>
+                  <dd id="resultBinary">-</dd>
+                </div>
+                <div class="conversion-item">
+                  <dt>Desimal</dt>
+                  <dd id="resultDecimal">-</dd>
+                </div>
+                <div class="conversion-item">
+                  <dt>Oktal</dt>
+                  <dd id="resultOctal">-</dd>
+                </div>
+                <div class="conversion-item">
+                  <dt>Heksadesimal</dt>
+                  <dd id="resultHex">-</dd>
+                </div>
+              </dl>
+
+              <p id="numberStatus" class="result number-status" role="status" aria-live="polite">
+                Masukkan bilangan dan pilih basis asalnya.
+              </p>
+            </div>
+          </div>
         </article>
       </div>
     </div>
@@ -712,6 +832,83 @@
         `Hasil: ${a} ${symbol} ${b} (mod ${m})\n` +
         `Status: ${status}`
       );
+    });
+
+    const numberForm = document.getElementById("numberForm");
+    const numberInput = document.getElementById("numberInput");
+    const sourceBase = document.getElementById("sourceBase");
+    const numberStatus = document.getElementById("numberStatus");
+
+    const conversionOutputs = {
+      2: document.getElementById("resultBinary"),
+      10: document.getElementById("resultDecimal"),
+      8: document.getElementById("resultOctal"),
+      16: document.getElementById("resultHex")
+    };
+
+    const baseNames = {
+      2: "Biner",
+      8: "Oktal",
+      10: "Desimal",
+      16: "Heksadesimal"
+    };
+
+    function parseIntegerInBase(input, base) {
+      let value = input.trim().toUpperCase();
+      let sign = 1n;
+
+      if (value.startsWith("-")) {
+        sign = -1n;
+        value = value.slice(1);
+      } else if (value.startsWith("+")) {
+        value = value.slice(1);
+      }
+
+      if (value.length === 0) {
+        return null;
+      }
+
+      let result = 0n;
+      const digits = "0123456789ABCDEF";
+
+      for (const character of value) {
+        const digit = digits.indexOf(character);
+
+        if (digit < 0 || digit >= base) {
+          return null;
+        }
+
+        result = result * BigInt(base) + BigInt(digit);
+      }
+
+      return result * sign;
+    }
+
+    numberForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const base = Number(sourceBase.value);
+      const value = parseIntegerInBase(numberInput.value, base);
+
+      if (value === null) {
+        Object.values(conversionOutputs).forEach((output) => {
+          output.textContent = "-";
+        });
+
+        numberStatus.textContent =
+          `Input tidak valid untuk basis ${base} (${baseNames[base]}).`;
+        numberStatus.classList.add("has-value");
+        return;
+      }
+
+      conversionOutputs[2].textContent = value.toString(2);
+      conversionOutputs[10].textContent = value.toString(10);
+      conversionOutputs[8].textContent = value.toString(8);
+      conversionOutputs[16].textContent = value.toString(16).toUpperCase();
+
+      numberStatus.textContent =
+        `Konversi berhasil dari ${baseNames[base]} (basis ${base}).`;
+      numberStatus.classList.add("has-value");
     });
   </script>
 </body>
