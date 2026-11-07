@@ -145,17 +145,14 @@
       color: white;
     }
 
-    .monogram {
-      width: 76px;
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
+    .profile-photo {
+      width: 130px;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center;
       border: 1px solid rgba(255, 255, 255, 0.45);
-      border-radius: 50%;
+      border-radius: 6px;
       background: rgba(255, 255, 255, 0.1);
-      color: var(--lime);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.8rem;
     }
 
     .profile-side p {
@@ -522,10 +519,15 @@
         min-height: 150px;
         flex-direction: row;
         align-items: end;
+        gap: 12px;
+      }
+
+      .profile-photo {
+        width: 96px;
       }
 
       .profile-side p {
-        max-width: 150px;
+        max-width: 130px;
         margin: 0;
         text-align: right;
       }
@@ -589,7 +591,7 @@
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="#biodata">Ujian Tengah Semester (UTS)</a>
+      <a class="brand" href="#biodata">Ujian Tengah Semester</a>
       <nav aria-label="Navigasi utama">
         <a href="#biodata">Biodata</a>
         <a href="#belajar">Bukti Belajar</a>
@@ -608,7 +610,11 @@
 
     <section id="biodata" class="profile" aria-labelledby="biodata-title">
       <div class="profile-side">
-        <div class="monogram" aria-hidden="true">DK</div>
+        <img
+          class="profile-photo"
+          src="Duddy.jpg"
+          alt="Foto Duddy Krisna Gunawan"
+        >
         <p>Informasi pribadi dan akademik</p>
       </div>
 
