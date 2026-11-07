@@ -103,7 +103,6 @@
       color: var(--green);
       font-size: 0.78rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
@@ -117,7 +116,7 @@
     h1 {
       max-width: 700px;
       margin: 0 0 10px;
-      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-size: 48px;
       line-height: 1.08;
     }
 
@@ -224,13 +223,12 @@
       color: var(--lime);
       font-size: 0.78rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
     .learning-heading h2 {
       margin: 0 0 8px;
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: 44px;
       line-height: 1.1;
     }
 
@@ -267,7 +265,7 @@
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
     }
 
-    .learning-card.number-card {
+    .learning-card.wide-card {
       grid-column: 1 / -1;
     }
 
@@ -284,7 +282,6 @@
       color: #b75d34;
       font-size: 0.74rem;
       font-weight: 800;
-      letter-spacing: 0.1em;
     }
 
     .learning-card h3 {
@@ -296,7 +293,7 @@
       flex: 0 0 auto;
       color: var(--muted);
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
     }
 
     .calculator-fields {
@@ -438,6 +435,49 @@
       margin-top: 12px;
     }
 
+    .combinatorics-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .combinatorics-results {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .combinatorics-calculation {
+      min-width: 0;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .combinatorics-calculation h4 {
+      margin: 0 0 8px;
+      color: var(--green-dark);
+    }
+
+    .combinatorics-calculation p {
+      margin: 6px 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      overflow-wrap: anywhere;
+    }
+
+    .combinatorics-calculation .calculation-value {
+      color: var(--ink);
+      font-family: Consolas, monospace;
+      font-weight: 700;
+    }
+
+    .combinatorics-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
     .site-footer {
       padding-top: 24px;
       padding-bottom: 24px;
@@ -470,6 +510,10 @@
         padding-top: 36px;
       }
 
+      h1 {
+        font-size: 40px;
+      }
+
       .profile {
         grid-template-columns: 1fr;
       }
@@ -489,7 +533,9 @@
       .details,
       .learning-grid,
       .calculator-fields,
-      .calculator-fields.three-fields {
+      .calculator-fields.three-fields,
+      .combinatorics-fields,
+      .combinatorics-results {
         grid-template-columns: 1fr;
       }
 
@@ -499,6 +545,10 @@
 
       .learning-heading {
         align-items: start;
+      }
+
+      .learning-heading h2 {
+        font-size: 36px;
       }
 
       .learning-mark {
@@ -672,7 +722,7 @@
           </p>
         </article>
 
-        <article class="learning-card number-card">
+        <article class="learning-card wide-card">
           <header class="learning-card-header">
             <div>
               <p class="learning-index">03 · KONVERSI BASIS</p>
@@ -735,6 +785,56 @@
             </div>
           </div>
         </article>
+
+        <article class="learning-card wide-card">
+          <header class="learning-card-header">
+            <div>
+              <p class="learning-index">04 · PERMUTASI DAN KOMBINASI</p>
+              <h3>Kalkulator Kombinatorika</h3>
+            </div>
+            <span class="learning-formula" aria-hidden="true">n! / r!</span>
+          </header>
+
+          <form id="combinatoricsForm">
+            <div class="combinatorics-fields">
+              <div class="field">
+                <label for="combN">Nilai n</label>
+                <input type="text" id="combN" inputmode="numeric" required>
+              </div>
+
+              <div class="field">
+                <label for="combR">Nilai r</label>
+                <input type="text" id="combR" inputmode="numeric" required>
+              </div>
+            </div>
+
+            <button type="submit">Hitung</button>
+          </form>
+
+          <p id="combinatoricsStatus" class="result" role="status" aria-live="polite">
+            Masukkan n dan r, dengan 0 ≤ r ≤ n.
+          </p>
+
+          <div class="combinatorics-results">
+            <section class="combinatorics-calculation" aria-labelledby="permutationTitle">
+              <h4 id="permutationTitle">Permutasi</h4>
+              <p id="permutationFormula">Rumus: P(n,r) = n! / (n-r)!</p>
+              <p id="permutationProcess">Proses perhitungan akan muncul di sini.</p>
+              <p id="permutationValue" class="calculation-value">Hasil: -</p>
+            </section>
+
+            <section class="combinatorics-calculation" aria-labelledby="combinationTitle">
+              <h4 id="combinationTitle">Kombinasi</h4>
+              <p id="combinationFormula">Rumus: C(n,r) = n! / (r!(n-r)!)</p>
+              <p id="combinationProcess">Proses perhitungan akan muncul di sini.</p>
+              <p id="combinationValue" class="calculation-value">Hasil: -</p>
+            </section>
+          </div>
+
+          <p class="combinatorics-note">
+            Permutasi memperhatikan urutan. Kombinasi memilih anggota tanpa memperhatikan urutan.
+          </p>
+        </article>
       </div>
     </div>
   </section>
@@ -744,11 +844,6 @@
   </footer>
 
   <script>
-    const modForm = document.getElementById("modForm");
-    const congruenceForm = document.getElementById("congruenceForm");
-    const hasilMod = document.getElementById("hasilMod");
-    const hasilKongruensi = document.getElementById("hasilKongruensi");
-
     function readInteger(id) {
       const value = document.getElementById(id).value.trim();
 
@@ -763,6 +858,9 @@
       element.textContent = message;
       element.classList.add("has-value");
     }
+
+    const modForm = document.getElementById("modForm");
+    const hasilMod = document.getElementById("hasilMod");
 
     modForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -789,6 +887,9 @@
         `Hasil: ${a} mod ${m} = ${remainder}`
       );
     });
+
+    const congruenceForm = document.getElementById("congruenceForm");
+    const hasilKongruensi = document.getElementById("hasilKongruensi");
 
     congruenceForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -909,6 +1010,110 @@
       numberStatus.textContent =
         `Konversi berhasil dari ${baseNames[base]} (basis ${base}).`;
       numberStatus.classList.add("has-value");
+    });
+
+    const combinatoricsForm = document.getElementById("combinatoricsForm");
+    const combinatoricsStatus = document.getElementById("combinatoricsStatus");
+    const MAX_CALCULATION_STEPS = 1000n;
+
+    function productText(values) {
+      return values.length > 0 ? values.join(" × ") : "1";
+    }
+
+    function factorialFactors(number) {
+      const factors = [];
+
+      for (let value = number; value > 0n; value--) {
+        factors.push(value.toString());
+      }
+
+      return factors;
+    }
+
+    function resetCombinatoricsResults() {
+      document.getElementById("permutationProcess").textContent =
+        "Proses perhitungan akan muncul di sini.";
+      document.getElementById("permutationValue").textContent = "Hasil: -";
+      document.getElementById("combinationProcess").textContent =
+        "Proses perhitungan akan muncul di sini.";
+      document.getElementById("combinationValue").textContent = "Hasil: -";
+    }
+
+    combinatoricsForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      resetCombinatoricsResults();
+
+      const nInput = document.getElementById("combN").value.trim();
+      const rInput = document.getElementById("combR").value.trim();
+
+      if (!/^[0-9]+$/.test(nInput) || !/^[0-9]+$/.test(rInput)) {
+        combinatoricsStatus.textContent =
+          "n dan r harus berupa bilangan bulat nonnegatif.";
+        return;
+      }
+
+      const n = BigInt(nInput);
+      const r = BigInt(rInput);
+
+      if (r > n) {
+        combinatoricsStatus.textContent =
+          "Nilai r tidak boleh lebih besar dari n.";
+        return;
+      }
+
+      const k = r < n - r ? r : n - r;
+
+      if (r > MAX_CALCULATION_STEPS || k > MAX_CALCULATION_STEPS) {
+        combinatoricsStatus.textContent =
+          "Nilai terlalu besar untuk dihitung di halaman ini. Gunakan maksimal 1.000 langkah perhitungan.";
+        return;
+      }
+
+      let permutation = 1n;
+      const permutationFactors = [];
+
+      for (let index = 0n; index < r; index++) {
+        const factor = n - index;
+        permutation *= factor;
+        permutationFactors.push(factor.toString());
+      }
+
+      document.getElementById("permutationFormula").textContent =
+        `Rumus: P(${n},${r}) = ${n}! / (${n - r})!`;
+
+      document.getElementById("permutationProcess").textContent =
+        `Proses: ${productText(permutationFactors)} = ${permutation}`;
+
+      document.getElementById("permutationValue").textContent =
+        `Hasil: P(${n},${r}) = ${permutation}`;
+
+      let combination = 1n;
+
+      for (let index = 1n; index <= k; index++) {
+        combination = (combination * (n - k + index)) / index;
+      }
+
+      const numeratorFactors = [];
+
+      for (let index = 0n; index < k; index++) {
+        numeratorFactors.push((n - index).toString());
+      }
+
+      const denominatorFactors = factorialFactors(k);
+
+      document.getElementById("combinationFormula").textContent =
+        `Rumus: C(${n},${r}) = ${n}! / (${r}! × ${n - r}!)`;
+
+      document.getElementById("combinationProcess").textContent =
+        `Proses: k = min(r, n-r) = ${k}; ` +
+        `(${productText(numeratorFactors)}) / ` +
+        `(${productText(denominatorFactors)}) = ${combination}`;
+
+      document.getElementById("combinationValue").textContent =
+        `Hasil: C(${n},${r}) = ${combination}`;
+
+      combinatoricsStatus.textContent =
+        "Perhitungan berhasil. Permutasi memperhatikan urutan, kombinasi tidak.";
     });
   </script>
 </body>
