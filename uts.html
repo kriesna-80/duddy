@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Aritmetika Modular</title>
+    <title>Kalkulator Aritmetika Modular & Pengecek Kongruensi</title>
 
     <style>
         body {
@@ -16,7 +16,7 @@
         }
 
         .container {
-            width: 400px;
+            width: 500px;
             background: white;
             padding: 25px;
             border-radius: 10px;
@@ -26,6 +26,10 @@
         h2 {
             text-align: center;
             color: #333;
+        }
+
+        h3 {
+            color: #007BFF;
         }
 
         label {
@@ -57,8 +61,8 @@
             background-color: #0056b3;
         }
 
-        #hasil {
-            margin-top: 20px;
+        .hasil {
+            margin-top: 15px;
             padding: 15px;
             background-color: #f8f9fa;
             border-radius: 5px;
@@ -68,11 +72,26 @@
             color: red;
             font-weight: bold;
         }
+
+        .kongruen {
+            color: green;
+            font-weight: bold;
+        }
+
+        .tidak-kongruen {
+            color: red;
+            font-weight: bold;
+        }
+
+        hr {
+            margin: 25px 0;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
+
     <h2>Kalkulator Aritmetika Modular</h2>
 
     <label for="a">Bilangan a</label>
@@ -81,47 +100,126 @@
     <label for="m">Modulus m</label>
     <input type="number" id="m" placeholder="Masukkan modulus m">
 
-    <button onclick="hitungMod()">Hitung</button>
+    <button onclick="hitungMod()">Hitung Modulus</button>
 
-    <div id="hasil"></div>
+    <div id="hasilMod" class="hasil"></div>
+
+    <hr>
+
+    <h2>Pengecek Kongruensi</h2>
+
+    <label for="b">Bilangan b</label>
+    <input type="number" id="b" placeholder="Masukkan bilangan b">
+
+    <button onclick="cekKongruensi()">Periksa Kongruensi</button>
+
+    <div id="hasilKongruensi" class="hasil"></div>
+
 </div>
 
 <script>
+
 function hitungMod() {
 
     let a = parseInt(document.getElementById("a").value);
     let m = parseInt(document.getElementById("m").value);
-    let hasilDiv = document.getElementById("hasil");
 
-    // Validasi input
+    let hasilDiv = document.getElementById("hasilMod");
+
     if (isNaN(a) || isNaN(m)) {
         hasilDiv.innerHTML =
-            "<p class='error'>Masukkan bilangan bulat yang valid.</p>";
+            "<p class='error'>Masukkan nilai a dan m terlebih dahulu.</p>";
         return;
     }
 
-    // Modulus harus positif
     if (m <= 0) {
         hasilDiv.innerHTML =
             "<p class='error'>Modulus harus merupakan bilangan bulat positif.</p>";
         return;
     }
 
-    // Menangani bilangan negatif
     let hasil = ((a % m) + m) % m;
-
-    // Menentukan nilai pembagi untuk proses
     let k = (a - hasil) / m;
 
     hasilDiv.innerHTML = `
-        <h3>Hasil</h3>
+        <h3>Hasil Perhitungan Modulus</h3>
         <p><strong>${a} mod ${m} = ${hasil}</strong></p>
 
-        <h3>Proses Perhitungan</h3>
+        <h3>Proses</h3>
         <p>${a} = (${k} × ${m}) + ${hasil}</p>
         <p>Sisa pembagian = ${hasil}</p>
     `;
 }
+
+function cekKongruensi() {
+
+    let a = parseInt(document.getElementById("a").value);
+    let b = parseInt(document.getElementById("b").value);
+    let m = parseInt(document.getElementById("m").value);
+
+    let hasilDiv = document.getElementById("hasilKongruensi");
+
+    if (isNaN(a) || isNaN(b) || isNaN(m)) {
+        hasilDiv.innerHTML =
+            "<p class='error'>Masukkan nilai a, b, dan m terlebih dahulu.</p>";
+        return;
+    }
+
+    if (m <= 0) {
+        hasilDiv.innerHTML =
+            "<p class='error'>Modulus harus merupakan bilangan bulat positif.</p>";
+        return;
+    }
+
+    let selisih = a - b;
+
+    if (selisih % m === 0) {
+
+        hasilDiv.innerHTML = `
+            <h3>Hasil Pengecekan Kongruensi</h3>
+
+            <p><strong>${a} ≡ ${b} (mod ${m})</strong></p>
+
+            <p class="kongruen">
+                Status : KONGRUEN
+            </p>
+
+            <h3>Proses Pengecekan</h3>
+
+            <p>a - b = ${a} - ${b} = ${selisih}</p>
+
+            <p>${selisih} mod ${m} = 0</p>
+
+            <p>Karena ${m} membagi ${selisih}, maka:</p>
+
+            <p><strong>${a} ≡ ${b} (mod ${m})</strong></p>
+        `;
+
+    } else {
+
+        hasilDiv.innerHTML = `
+            <h3>Hasil Pengecekan Kongruensi</h3>
+
+            <p><strong>${a} ≢ ${b} (mod ${m})</strong></p>
+
+            <p class="tidak-kongruen">
+                Status : TIDAK KONGRUEN
+            </p>
+
+            <h3>Proses Pengecekan</h3>
+
+            <p>a - b = ${a} - ${b} = ${selisih}</p>
+
+            <p>${selisih} mod ${m} = ${selisih % m}</p>
+
+            <p>Karena ${m} tidak membagi ${selisih}, maka:</p>
+
+            <p><strong>${a} ≢ ${b} (mod ${m})</strong></p>
+        `;
+
+    }
+}
+
 </script>
 
 </body>
